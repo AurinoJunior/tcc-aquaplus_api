@@ -22,6 +22,13 @@ board.on("ready", () => {
   //   threshold: 5
   // })
 
+  const chaveAlimentador = new Sensor({
+    pin: 7,
+    type: "digital",
+    freq: 250,
+    threshold: 5
+  })
+
 
   /* ROTAS */
   app.use(cors())
@@ -31,51 +38,53 @@ board.on("ready", () => {
     res.send({ message: 'Tudo ok' })
   })
 
+  chaveAlimentador.on("change", () => {
+    app.post('/relay', (req, res) => {
+      const { toggle, tipoComponente } = req.body
+      console.log(req.body)
+      let relay;
+      switch (tipoComponente) {
+        case 'Filtro':
+          relay = new Relay(10)
+          ativaRele(relay, toggle)
+          break;
 
-  app.post('/relay', (req, res) => {
-    const { toggle, tipoComponente } = req.body
-    console.log(req.body)
-    let relay;
-    switch (tipoComponente) {
-      case 'Filtro':
-        relay = new Relay(10)
-        ativaRele(relay, toggle)
-        break;
+        case 'Termostato':
+          relay = new Relay(10)
+          ativaRele(relay, toggle)
+          break;
 
-      case 'Termostato':
-        relay = new Relay(10)
-        ativaRele(relay, toggle)
-        break;
+        case 'Cooler':
+          relay = new Relay(2)
+          ativaRele(relay, toggle)
+          break;
 
-      case 'Cooler':
-        relay = new Relay(2)
-        ativaRele(relay, toggle)
-        break;
+        case 'Repositor':
+          relay = new Relay(10)
+          ativaRele(relay, toggle)
+          break;
 
-      case 'Repositor':
-        relay = new Relay(10)
-        ativaRele(relay, toggle)
-        break;
+        case 'Alimentador':
+          relay = new Relay(4)
+          relay.on()
+          if (chaveAlimentador === 0) {
+            relay.off()
+          }
+          break;
 
-      case 'Alimentador':
-        relay = new Relay(4)
-        ativaRele(relay, toggle)
-        break;
+        case 'Iluminacao':
+          console.log("To aqui")
+          relay = new Relay(3)
+          ativaRele(relay, toggle)
+          break;
 
-      case 'Iluminacao':
-        console.log("To aqui")
-        relay = new Relay(3)
-        ativaRele(relay, toggle)
-        break;
-
-      default:
-        break;
-    }
-
-
-
-    return res.send({ toggle })
+        default:
+          break;
+      }
+      return res.send({ toggle })
+    })
   })
+
 
   app.get('/temperatura', (req, res) => {
     try {
