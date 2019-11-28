@@ -12,7 +12,7 @@ board.on("ready", () => {
   /* Sensores */
   const thermometer = new Thermometer({
     controller: "DS18B20",
-    pin: 2
+    pin: 12
   });
 
   // const nivelAgua = new Sensor({
@@ -46,7 +46,7 @@ board.on("ready", () => {
         break;
 
       case 'Cooler':
-        relay = new Relay(10)
+        relay = new Relay(2)
         ativaRele(relay, toggle)
         break;
 
@@ -56,12 +56,12 @@ board.on("ready", () => {
         break;
 
       case 'Alimentador':
-        relay = new Relay(10)
+        relay = new Relay(4)
         ativaRele(relay, toggle)
         break;
 
       case 'Iluminacao':
-        relay = new Relay(10)
+        relay = new Relay(3)
         ativaRele(relay, toggle)
         break;
 
