@@ -16,7 +16,8 @@ board.on("ready", () => {
   });
 
   // const nivelAgua = new Sensor({
-  //   pin: "A0",
+  //   pin: 8,
+  //   type: "digital",
   //   freq: 250,
   //   threshold: 5
   // })
@@ -33,6 +34,7 @@ board.on("ready", () => {
 
   app.post('/relay', (req, res) => {
     const { toggle, tipoComponente } = req.body
+    console.log(req.body)
     let relay;
     switch (tipoComponente) {
       case 'Filtro':
@@ -61,6 +63,7 @@ board.on("ready", () => {
         break;
 
       case 'Iluminacao':
+        console.log("To aqui")
         relay = new Relay(3)
         ativaRele(relay, toggle)
         break;
@@ -85,14 +88,16 @@ board.on("ready", () => {
     }
   })
 
-  // app.get('/nivelagua', (req, res) => {
-  //   try {
-  //     console.log("Agua", nivelAgua.scaleTo(0, 1))
-  //     return res.set('Content-Type', 'application/json')
-  //       .send({ nivel: 1 })
-  //   } catch (e) {
-  //     console.error('Deu ruim com o nivel de agua')
-  //   }
+  // nivelAgua.on("change", () => {
+  //   app.get('/nivelagua', (req, res) => {
+  //     try {
+  //       console.log("Agua", nivelAgua.value)
+  //       return res.set('Content-Type', 'application/json')
+  //         .send({ nivel: nivelAgua.value })
+  //     } catch (e) {
+  //       console.error('Deu ruim com o nivel de agua')
+  //     }
+  //   })
   // })
 
   /* Server rodando */
