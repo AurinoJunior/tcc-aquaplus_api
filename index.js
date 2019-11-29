@@ -15,12 +15,12 @@ board.on("ready", () => {
     pin: 12
   });
 
-  // const nivelAgua = new Sensor({
-  //   pin: 8,
-  //   type: "digital",
-  //   freq: 250,
-  //   threshold: 5
-  // })
+  const nivelAgua = new Sensor({
+    pin: 8,
+    type: "digital",
+    freq: 250,
+    threshold: 5
+  })
 
   /* ROTAS */
   app.use(cors())
@@ -84,17 +84,17 @@ board.on("ready", () => {
     }
   })
 
-  // nivelAgua.on("change", () => {
-  //   app.get('/nivelagua', (req, res) => {
-  //     try {
-  //       console.log("Agua", nivelAgua.value)
-  //       return res.set('Content-Type', 'application/json')
-  //         .send({ nivel: nivelAgua.value })
-  //     } catch (e) {
-  //       console.error('Deu ruim com o nivel de agua')
-  //     }
-  //   })
-  // })
+  nivelAgua.on("change", () => {
+    app.get('/nivelagua', (req, res) => {
+      try {
+        console.log("Agua", nivelAgua.value)
+        return res.set('Content-Type', 'application/json')
+          .send({ nivel: nivelAgua.value })
+      } catch (e) {
+        console.error('Deu ruim com o nivel de agua')
+      }
+    })
+  })
 
   /* Server rodando */
   app.listen(3333, () => {
