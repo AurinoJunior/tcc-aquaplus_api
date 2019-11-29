@@ -36,12 +36,12 @@ board.on("ready", () => {
     let relay;
     switch (tipoComponente) {
       case 'Filtro':
-        relay = new Relay(10)
+        relay = new Relay(5)
         ativaRele(relay, toggle)
         break;
 
       case 'Termostato':
-        relay = new Relay(10)
+        relay = new Relay(6)
         ativaRele(relay, toggle)
         break;
 
@@ -51,7 +51,7 @@ board.on("ready", () => {
         break;
 
       case 'Repositor':
-        relay = new Relay(10)
+        relay = new Relay(7)
         ativaRele(relay, toggle)
         break;
 
